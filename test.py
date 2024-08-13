@@ -1,63 +1,50 @@
 import random
 
-from replit import clear
+rock = '''
+    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
+'''
 
-from art import logo, vs
-from game_data import data
+paper = '''
+    _______
+---'   ____)____
+          ______)
+          _______)
+         _______)
+---.__________)
+'''
 
+scissors = '''
+    _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)
+'''
 
-def get_random_account():
-  """Get data from random account"""
-  return random.choice(data)
+game_images = [rock, paper, scissors]
 
-def format_data(account):
-  """Format account into printable format: name, description and country"""
-  name = account["name"]
-  description = account["description"]
-  country = account["country"]
-  # print(f'{name}: {account["follower_count"]}')
-  return f"{name}, a {description}, from {country}"
+user_choice = int(input("What do you choose? Type 0 for Rock, 1 for Paper or 2 for Scissors.\n"))
+print(game_images[user_choice])
 
-def check_answer(guess, a_followers, b_followers):
-  """Checks followers against user's guess 
-  and returns True if they got it right.
-  Or False if they got it wrong.""" 
-  if a_followers > b_followers:
-    return guess == "a"
-  else:
-    return guess == "b"
+computer_choice = random.randint(0, 2)
+print("Computer chose:")
+print(game_images[computer_choice])
 
-
-def game():
-  print(logo)
-  score = 0
-  game_should_continue = True
-  account_a = get_random_account()
-  account_b = get_random_account()
-
-  while game_should_continue:
-    account_a = account_b
-    account_b = get_random_account()
-
-    while account_a == account_b:
-      account_b = get_random_account()
-
-    print(f"Compare A: {format_data(account_a)}.")
-    print(vs)
-    print(f"Against B: {format_data(account_b)}.")
-    
-    guess = input("Who has more followers? Type 'A' or 'B': ").lower()
-    a_follower_count = account_a["follower_count"]
-    b_follower_count = account_b["follower_count"]
-    is_correct = check_answer(guess, a_follower_count, b_follower_count)
-
-    clear()
-    print(logo)
-    if is_correct:
-      score += 1
-      print(f"You're right! Current score: {score}.")
-    else:
-      game_should_continue = False
-      print(f"Sorry, that's wrong. Final score: {score}")
-
-game()
+if user_choice >= 3 or user_choice < 0: 
+  print("You typed an invalid number, you lose!") 
+elif user_choice == 0 and computer_choice == 2:
+  print("You win!")
+elif computer_choice == 0 and user_choice == 2:
+  print("You lose")
+elif computer_choice > user_choice:
+  print("You lose")
+elif user_choice > computer_choice:
+  print("You win!")
+elif computer_choice == user_choice:
+  print("It's a draw")
